@@ -12,19 +12,24 @@ import mplfinance as mpf
 st.title("📈 Stock Analysis & Prediction App")
 
 stocks_list = [
-    "Choose Stock",
-    "GOOG", "AAPL", "MSFT", "TSLA", "AMZN", "META", "NVDA", 
-    "IBM", "NFLX", "INTC", "ORCL", "ADBE"
+    "GOOG", "AAPL", "MSFT", "TSLA", "AMZN", "META", 
+    "NVDA", "IBM", "NFLX", "INTC", "ORCL", "ADBE"
 ]
 
-stock = st.selectbox("Select Stock Symbol:", stocks_list)
+stock = st.selectbox(
+    "Choose Option",
+    stocks_list,
+    index=None,
+    placeholder="Choose Option"
+)
+
 start = st.date_input("Start Date", pd.to_datetime("2015-01-01"))
 end = st.date_input("End Date", pd.to_datetime("2025-12-31"))
 
 if st.button("Fetch & Analyze"):
 
-    if stock == "Choose Stock":
-        st.error("Please select a valid stock symbol.")
+    if stock is None:
+        st.error("Please choose a stock option before proceeding.")
     else:
         with st.spinner("Downloading stock data…"):
             google_data = yf.download(stock, start=start, end=end)
