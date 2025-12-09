@@ -11,7 +11,12 @@ import mplfinance as mpf
 
 st.title("📈 Stock Analysis & Prediction App")
 
-stock = st.text_input("Enter Stock Symbol (e.g., GOOG, AAPL, MSFT):", "GOOG").upper()
+stocks_list = [
+    "GOOG", "AAPL", "MSFT", "TSLA", "AMZN", "META", "NVDA", 
+    "IBM", "NFLX", "INTC", "ORCL", "ADBE"
+]
+
+stock = st.selectbox("Select Stock Symbol:", stocks_list)
 start = st.date_input("Start Date", pd.to_datetime("2015-01-01"))
 end = st.date_input("End Date", pd.to_datetime("2025-12-31"))
 
@@ -20,7 +25,7 @@ if st.button("Fetch & Analyze"):
         google_data = yf.download(stock, start=start, end=end)
 
     if google_data.empty:
-        st.error("No data found for this symbol. Please check the ticker and try again.")
+        st.error("No data found for this symbol.")
     else:
         google_data.columns = [c[0] for c in google_data.columns]
 
